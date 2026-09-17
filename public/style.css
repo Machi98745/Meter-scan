@@ -1,0 +1,240 @@
+/* Meter Scan — ธีมงานสนาม: กระดาษสีเย็น, น้ำเงินการไฟฟ้า, แดงหลักสุดท้ายของหน้าปัดมิเตอร์ */
+:root {
+  --paper:  #F2F4F3;
+  --card:   #FFFFFF;
+  --ink:    #16242E;
+  --slate:  #5C6F7A;
+  --line:   #D3DBDD;
+  --blue:   #1F5F8B;
+  --blue-d: #143F5D;
+  --red:    #C9342B;
+  --ok:     #1C7A4C;
+  --amber:  #B4770E;
+  --shadow: 0 1px 0 var(--line);
+  --r: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans Thai", "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: var(--blue); }
+
+/* ---- แถบหัว ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--blue-d);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.brand {
+  font-weight: 600;
+  letter-spacing: .01em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-right: auto;
+}
+.brand .dial {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #fff; position: relative; flex: none;
+}
+.brand .dial::after {
+  content: ""; position: absolute; inset: 0;
+  border-left: 2px solid var(--red);
+  transform: rotate(38deg); transform-origin: 8px 8px;
+  width: 8px; height: 8px; top: 2px; left: 7px;
+}
+.topbar nav { display: flex; gap: 4px; }
+.topbar nav a {
+  color: #CFE2EF; text-decoration: none; padding: 6px 12px;
+  border-radius: var(--r); font-size: 15px;
+}
+.topbar nav a:hover { background: rgba(255,255,255,.12); color: #fff; }
+.topbar nav a[aria-current="page"] { background: #fff; color: var(--blue-d); font-weight: 600; }
+
+/* ---- โครงหน้า ---- */
+.wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 64px; }
+.wrap.narrow { max-width: 620px; }
+
+h1 { font-size: 22px; margin: 4px 0 2px; font-weight: 600; }
+.sub { color: var(--slate); margin: 0 0 18px; font-size: 14.5px; }
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.panel > h2 { font-size: 15px; margin: 0 0 12px; font-weight: 600; }
+
+/* ---- กล้อง ---- */
+.viewport {
+  position: relative;
+  background: #0C1418;
+  border-radius: var(--r);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  max-height: 62vh;
+  margin: 0 auto;
+}
+@media (min-width: 720px) { .viewport { aspect-ratio: 4 / 3; } }
+.viewport video, .viewport img.shot {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.viewport .hint {
+  position: absolute; inset: 0; display: grid; place-content: center;
+  color: #9FB3BD; font-size: 14px; text-align: center; padding: 24px;
+}
+
+/* กรอบเล็งเลข: ทำให้เหมือนช่องตัวเลขบนหน้าปัดมิเตอร์ */
+.roi {
+  position: absolute;
+  left: 8%; width: 84%;
+  top: 40%; height: 18%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 9999px rgba(8,16,20,.5);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.roi::before {
+  content: attr(data-label);
+  position: absolute; left: 0; top: -24px;
+  color: #fff; font-size: 12px;
+}
+.roi.live { border-color: #62D394; }
+.viewport .flash {
+  position: absolute; inset: 0; background: #fff; opacity: 0;
+  pointer-events: none;
+}
+.viewport .flash.on { animation: pop .25s ease-out; }
+@keyframes pop { from { opacity: .85 } to { opacity: 0 } }
+
+.cam-tools { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+
+/* ---- ปุ่ม ---- */
+button, .btn {
+  font: inherit; font-size: 15px;
+  border: 1px solid var(--blue);
+  background: var(--blue); color: #fff;
+  padding: 10px 18px; border-radius: var(--r);
+  cursor: pointer; text-decoration: none; display: inline-block;
+}
+button:hover, .btn:hover { background: var(--blue-d); border-color: var(--blue-d); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.ghost, .btn.ghost { background: transparent; color: var(--blue); }
+button.ghost:hover { background: #E7EEF3; }
+button.quiet { background: transparent; color: var(--slate); border-color: var(--line); }
+button.quiet:hover { background: #E9EDEE; color: var(--ink); }
+button.danger { background: transparent; color: var(--red); border-color: #E7BDB9; padding: 5px 10px; font-size: 13px; }
+button.danger:hover { background: var(--red); color: #fff; border-color: var(--red); }
+button.big { width: 100%; padding: 14px; font-size: 17px; font-weight: 600; }
+:focus-visible { outline: 3px solid #8FC4E6; outline-offset: 2px; }
+
+/* ---- สถานะการอ่าน ---- */
+.status {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14.5px; color: var(--slate);
+  border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px;
+}
+.status .tries { margin-left: auto; font-variant-numeric: tabular-nums; }
+.spin {
+  width: 14px; height: 14px; flex: none;
+  border: 2px solid var(--line); border-top-color: var(--blue);
+  border-radius: 50%; animation: sp .8s linear infinite;
+}
+@keyframes sp { to { transform: rotate(360deg) } }
+@media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s } }
+
+/* ---- หน้าปัดแสดงเลขที่อ่านได้ ---- */
+.register {
+  display: flex; gap: 3px; justify-content: center;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  margin: 6px 0 14px;
+}
+.register span {
+  background: #1B2A33; color: #F6F8F8;
+  font-size: 34px; line-height: 1; font-weight: 500;
+  padding: 10px 9px; border-radius: 2px;
+}
+.register span.last { background: var(--red); }
+.register.empty span { background: #E3E8E9; color: #AAB6BB; }
+
+/* ---- ฟอร์ม ---- */
+label.field { display: block; margin-bottom: 12px; font-size: 13.5px; color: var(--slate); }
+label.field input, label.field textarea, input.search {
+  display: block; width: 100%; margin-top: 4px;
+  font: inherit; color: var(--ink);
+  padding: 9px 11px; border: 1px solid var(--line); border-radius: var(--r);
+  background: #fff;
+}
+label.field input:focus, input.search:focus { border-color: var(--blue); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.gps {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace; font-size: 14px;
+}
+.gps .muted { font-family: "IBM Plex Sans Thai", sans-serif; color: var(--slate); }
+
+#map, #mapMini { border-radius: var(--r); border: 1px solid var(--line); z-index: 1; }
+#mapMini { height: 170px; margin-top: 10px; }
+#map { height: 420px; position: sticky; top: 76px; }
+
+/* ---- ตารางรายการ ---- */
+.split { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .split { grid-template-columns: 1.15fr .85fr; } }
+
+.rec {
+  display: grid; grid-template-columns: 92px 1fr auto; gap: 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 12px; margin-bottom: 10px; align-items: start;
+}
+.rec.active { border-color: var(--blue); box-shadow: inset 3px 0 0 var(--blue); }
+.rec img { width: 92px; height: 74px; object-fit: cover; border-radius: 3px; background: #E3E8E9; cursor: zoom-in; }
+.rec .val {
+  font-family: "IBM Plex Mono", monospace; font-size: 21px; font-weight: 600;
+  letter-spacing: .06em;
+}
+.rec .val b { color: var(--red); font-weight: 600; }
+.rec .meta { color: var(--slate); font-size: 13px; }
+.rec .meta code { font-family: "IBM Plex Mono", monospace; }
+.rec .go { background: none; border: 0; color: var(--blue); padding: 0; font-size: 13px; cursor: pointer; }
+.rec .go:hover { text-decoration: underline; background: none; }
+
+.toolbar { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; }
+.toolbar input.search { max-width: 280px; }
+.count { color: var(--slate); font-size: 14px; margin-left: auto; }
+
+.empty { border: 1px dashed var(--line); border-radius: var(--r); padding: 28px; text-align: center; color: var(--slate); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+  background: var(--ink); color: #fff; padding: 11px 18px; border-radius: var(--r);
+  font-size: 15px; z-index: 60; max-width: 90vw;
+}
+.toast.warn { background: var(--amber); }
+.toast.bad  { background: var(--red); }
+
+.lightbox {
+  position: fixed; inset: 0; background: rgba(12,20,24,.9); z-index: 70;
+  display: grid; place-items: center; padding: 20px;
+}
+.lightbox img { max-width: 100%; max-height: 90vh; border-radius: var(--r); }
+
+.hidden { display: none !important; }

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สแกนมิเตอร์ — Meter Scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="dial"></span> Meter Scan</div>
+  <nav>
+    <a href="/" aria-current="page">สแกน</a>
+    <a href="/records.html">ข้อมูลที่บันทึก</a>
+  </nav>
+</header>
+
+<main class="wrap narrow">
+  <h1>อ่านเลขมิเตอร์จากกล้อง</h1>
+  <p class="sub">เล็งให้แถวตัวเลขอยู่ในกรอบ ระบบจะอ่านซ้ำเองทุกวินาทีจนกว่าจะได้เลขที่ตรงกัน 2 ครั้งติด</p>
+
+  <div class="panel">
+    <div class="viewport">
+      <video id="video" playsinline muted></video>
+      <img id="shot" class="shot hidden" alt="ภาพมิเตอร์ที่ถ่ายได้">
+      <div class="roi" id="roi" data-label="วางแถวตัวเลขในกรอบนี้"></div>
+      <div class="hint" id="hint">กดปุ่มด้านล่างเพื่อเปิดกล้องหลัง</div>
+      <div class="flash" id="flash"></div>
+    </div>
+
+    <div class="cam-tools">
+      <button class="quiet" id="btnTorch" disabled>เปิดไฟฉาย</button>
+      <button class="quiet" id="btnSwap" disabled>สลับกล้อง</button>
+      <button class="quiet" id="btnZoomOut" disabled>กรอบเล็กลง</button>
+      <button class="quiet" id="btnZoomIn" disabled>กรอบใหญ่ขึ้น</button>
+    </div>
+
+    <div class="status">
+      <span class="spin hidden" id="spin"></span>
+      <span id="statusText">ยังไม่เริ่ม</span>
+      <span class="tries" id="tries"></span>
+    </div>
+  </div>
+
+  <div class="register empty" id="register" aria-live="polite">
+    <span>–</span><span>–</span><span>–</span><span>–</span><span>–</span><span class="last">–</span>
+  </div>
+
+  <button class="big" id="btnScan">เปิดกล้องแล้วเริ่มอ่าน</button>
+
+  <div class="panel hidden" id="saveBox" style="margin-top:16px">
+    <h2>ยืนยันและบันทึกลงฐานข้อมูล</h2>
+    <div class="row2">
+      <label class="field">เลขที่อ่านได้ (แก้ไขได้ถ้าคลาดเคลื่อน)
+        <input id="fValue" inputmode="numeric" pattern="\d*" maxlength="12">
+      </label>
+      <label class="field">รหัส/หมายเลขมิเตอร์
+        <input id="fMeterNo" placeholder="เช่น 1234567890">
+      </label>
+    </div>
+    <label class="field">หมายเหตุ
+      <input id="fNote" placeholder="เช่น บ้านเลขที่ 45 ซอย 3">
+    </label>
+
+    <div class="gps">
+      <span id="gpsText" class="muted">ยังไม่ได้พิกัด</span>
+      <button class="ghost" id="btnGps" style="padding:5px 12px;font-size:13px">ขอพิกัดอีกครั้ง</button>
+    </div>
+    <div id="mapMini" class="hidden"></div>
+
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button id="btnSave" style="flex:1">บันทึก</button>
+      <button class="quiet" id="btnRetake">ถ่ายใหม่</button>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="scan.js"></script>
+</body>
+</html>

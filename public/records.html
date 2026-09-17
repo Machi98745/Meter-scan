@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ข้อมูลที่บันทึก — Meter Scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="dial"></span> Meter Scan</div>
+  <nav>
+    <a href="/">สแกน</a>
+    <a href="/records.html" aria-current="page">ข้อมูลที่บันทึก</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <h1>ข้อมูลที่บันทึกไว้</h1>
+  <p class="sub" id="stats">กำลังโหลด…</p>
+
+  <div class="toolbar">
+    <input class="search" id="q" type="search" placeholder="ค้นหาเลขมิเตอร์ / หมายเหตุ">
+    <a class="btn ghost" href="/api/export.csv">ส่งออก CSV</a>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="split">
+    <div id="list"></div>
+    <div id="map"></div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="records.js"></script>
+</body>
+</html>
